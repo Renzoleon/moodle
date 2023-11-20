@@ -18,8 +18,8 @@ if (isset($mensaje)) {
 ?>
 
 <?php  $formulario = ActiveForm::begin();  ?>
-<?= $formulario -> field($model,'username') ?>
-<?= $formulario -> field($model,'password') ?>
+<?= $formulario -> field($model,'username')->textInput(['autofocus' => true]) ?>
+<?= $formulario -> field($model,'password')->passwordInput() ?>
 <?= $formulario -> field($model,'firstname') ?>
 <?= $formulario -> field($model,'lastname') ?>
 <?= $formulario -> field($model,'email') ?>
