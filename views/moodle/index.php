@@ -14,7 +14,7 @@ if (isset($mensaje)) {
     var_dump($mensaje);
     echo '</pre>';
 }
-
+Esto es una pruebah
 ?>
 
 <?php  $formulario = ActiveForm::begin();  ?>
