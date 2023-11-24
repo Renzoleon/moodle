@@ -10,9 +10,11 @@ class MoodleController extends Controller
 {
     public function actionCrear($var1,$var2,$var3,$var4,$var5)
     {
-        $url = 'http://172.16.243.43/moodle/webservice/rest/server.php';
+        // $url = 'http://172.16.243.43/moodle/webservice/rest/server.php';
+        $url = 'localhost/moodle/webservice/rest/server.php';
         $data = [
-            'wstoken' => 'ec8703acaa85108f03b2717f35282556',
+            // 'wstoken' => 'ec8703acaa85108f03b2717f35282556',
+            'wstoken' => 'de43ac95878f53463292936d2ed0edfa',
             'wsfunction' => 'core_user_create_users',
             'moodlewsrestformat' => 'json',
 
