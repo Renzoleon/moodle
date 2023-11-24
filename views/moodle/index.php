@@ -11,15 +11,15 @@ use yii\widgets\ActiveForm;
 
 if (isset($mensaje)) {
     echo '<pre>';
+    //var_dump($_POST);
     var_dump($mensaje);
     echo '</pre>';
 }
-Esto es una pruebah
-?>
 
+?>
 <?php  $formulario = ActiveForm::begin();  ?>
 <?= $formulario -> field($model,'username')->textInput(['autofocus' => true]) ?>
-<?= $formulario -> field($model,'password')->passwordInput() ?>
+<?= $formulario -> field($model,'password') ?>
 <?= $formulario -> field($model,'firstname') ?>
 <?= $formulario -> field($model,'lastname') ?>
 <?= $formulario -> field($model,'email') ?>
@@ -28,6 +28,3 @@ Esto es una pruebah
         <?= Html::submitButton('ENVIAR',['class'=>'btn btn-primary']) ?>
     </div>
 <?php   ActiveForm::end();   ?>
-
-
-

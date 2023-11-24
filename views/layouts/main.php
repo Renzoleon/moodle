@@ -41,9 +41,11 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'items' => [
             ['label' => 'Inicio', 'url' => ['/site/index']],
             ['label' => 'Tablas','items'=>[
+                    ['label'=>'Moodle','url'=>'/moodle/index'],
+                    ['label'=>'Cursos','url'=>'/curso/index'],
+                    '<div class="dropdown-divider"></div>',
                     ['label'=>'Facultades','url'=>'/facultad/index'],
                     ['label'=>'Planes de Estudio','url'=>'/plan-estudios/index'],
-                    ['label'=>'Cursos','url'=>'/curso/index'],
                     '<div class="dropdown-divider"></div>',
                     ['label'=>'Programas Academicos','url'=>'/programa-academicos/index'],
                     ['label'=>'Area Academica','url'=>'/area-academica/index'],
