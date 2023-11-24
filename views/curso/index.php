@@ -9,6 +9,8 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\MdlCourseCategories */
 /* @var $formulario yii\widgets\ActiveForm  */
 
+$this->title = 'Crear un Curso';
+
 if (isset($mensaje)) {
     echo '<pre>';
     print_r($_POST);
