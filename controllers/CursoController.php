@@ -4,23 +4,21 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
-use app\models\Usuario;
+use app\models\MdlCourse;
 use yii\web\HttpException;
-class MoodleController extends Controller
+class CursoController extends Controller
 {
-    public function actionCrear($var1,$var2,$var3,$var4,$var5)
+    public function actionCrear($var1,$var2,$var3)
     {
-        $url = 'http://172.16.243.43/moodle/webservice/rest/server.php';
+        $url = '172.16.243.43/moodle/webservice/rest/server.php';
         $data = [
             'wstoken' => 'ec8703acaa85108f03b2717f35282556',
-            'wsfunction' => 'core_user_create_users',
+            'wsfunction' => 'core_course_create_courses',
             'moodlewsrestformat' => 'json',
 
-            'users[0][username]' => $var1,
-            'users[0][password]' => $var2,
-            'users[0][firstname]' => $var3,
-            'users[0][lastname]' => $var4,
-            'users[0][email]' => $var5,
+            'courses[0][fullname]' => $var1,
+            'courses[0][shortname]' => $var2,
+            'courses[0][categoryid]' => $var3,
         ];
         $urlCompleta = $url. '?' .http_build_query($data);
         $ch = curl_init();
@@ -52,10 +50,10 @@ class MoodleController extends Controller
     }
     public function actionIndex()
     {
-        $model = new Usuario();
+        $model = new MdlCourse();
         if ($model->load(Yii::$app->request->post())&&$model->validate())
         {
-            $mensaje= $this ->actionCrear($model ->username,$model ->password,$model ->firstname,$model ->lastname,$model ->email);
+            $mensaje= $this ->actionCrear($model ->fullname,$model ->shortname,$model ->category);
 
             return $this->render('index',['mensaje'=>$mensaje,'model'=>$model]);
         }

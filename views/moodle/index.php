@@ -2,16 +2,14 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-
 /* @var $decodedResponse app\controllers\MoodleController */
 /* @var $model app\models\Usuario */
+/* @var $formaulario yii\widgets\ActiveForm */
 
 // ... código de la vista ...
-
-
 if (isset($mensaje)) {
     echo '<pre>';
-    //var_dump($_POST);
+    print_r($_POST);
     var_dump($mensaje);
     echo '</pre>';
 }
