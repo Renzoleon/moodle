@@ -7,7 +7,7 @@ use yii\widgets\ActiveForm;
 
 /* @var $decodedResponse app\controllers\CursoController */
 /* @var $model app\models\MdlCourseCategories */
-/* @var $formulario yii\widgets\ActiveForm  */
+/* @var $formulario yii\widgets\ActiveForm */
 
 $this->title = 'Crear un Curso';
 $this->params['breadcrumbs'][] = ['label' => 'Cursos', 'url' => ['index']];
