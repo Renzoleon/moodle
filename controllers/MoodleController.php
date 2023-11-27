@@ -11,6 +11,7 @@ class MoodleController extends Controller
     public function actionCrear($var1,$var2,$var3,$var4,$var5)
     {
         $url = 'http://172.16.243.43/moodle/webservice/rest/server.php';
+        // Verificar si el usuario existe
         $data = [
             'wstoken' => 'ec8703acaa85108f03b2717f35282556',
             'wsfunction' => 'core_user_get_users_by_field',
@@ -27,6 +28,7 @@ class MoodleController extends Controller
         curl_close($ch);
         $usuarios = json_decode($result);
         if (empty($usuarios)) {
+            // Crear usuario
             $data = [
                 'wstoken' => 'ec8703acaa85108f03b2717f35282556',
                 'wsfunction' => 'core_user_create_users',
@@ -45,6 +47,7 @@ class MoodleController extends Controller
         // Configura las opciones de cURL
         $urlCompleta = $url. '?' .http_build_query($data);
         $ch = curl_init();
+        // Configura las opciones de cURL
         curl_setopt($ch, CURLOPT_URL, $urlCompleta);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -64,6 +67,7 @@ class MoodleController extends Controller
         $decodedResponse = json_decode($response, true);
         return $decodedResponse;
     }
+    // Crear usuario
     public function actionIndex()
     {
         $model = new Usuario();

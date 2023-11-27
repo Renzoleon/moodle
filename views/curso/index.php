@@ -9,9 +9,8 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\MdlCourseCategories */
 /* @var $formulario yii\widgets\ActiveForm */
 
-$this->title = 'Crear un Curso';
-$this->params['breadcrumbs'][] = ['label' => 'Cursos', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Crear un Nuevo Curso';
+$this->params['breadcrumbs'][] = ['label' => 'Crear Nuevo Cursos', 'url' => ['index']];
 
 // ... código de la vista ...
 if (isset($mensaje)) {
@@ -28,10 +27,11 @@ $dataCurso = ArrayHelper::map(MdlCourseCategories::find()->asArray()->all(),
 );
 ?>
 <h1><?= Html::encode($this->title) ?></h1>
-<div class="usuario-create">
+<div class="course-create">
+
     <?php $formulario = ActiveForm::begin();  ?>
-    <?= $formulario -> field($model,'fullname')->textInput(['autofocus' => true, 'maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
-    <?= $formulario -> field($model,'shortname')->textInput(['maxlength' => true, 'style' => 'text-transform: uppercase']) ?>
+    <?= $formulario -> field($model,'fullname')->textInput(['autofocus' => true, 'maxlength' => true])//, 'style' => 'text-transform: uppercase']) ?>
+    <?= $formulario -> field($model,'shortname')->textInput(['maxlength' => true])//, 'style' => 'text-transform: uppercase']) ?>
     <?= $formulario -> field($model,'category')->dropDownList($dataCurso, ['prompt'=> 'Seleccione la Categoria'] ) ?>
 
     <div class="form-group">

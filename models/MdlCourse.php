@@ -18,8 +18,9 @@ class MdlCourse extends ActiveRecord
     {
         return [
             [['fullname','shortname','category'],'required'],
-            ['fullname', 'match' ,'pattern' => '/^[A-Z]/', 'message' => 'El fullname solo puede contener Mayúsculas.'],
-            ['shortname', 'match' ,'pattern' => '/^[A-Z]/', 'message' => 'El shortname solo puede contener Mayúsculas.'],
+            ['fullname', 'match' ,'pattern' => '/^[A-Z\s!@#$%^&*()-_]{8,}$/', 'message' => 'El fullname no permite Minúsculas.'],
+
+            ['shortname', 'match' ,'pattern' => '/^[A-Z\s!@#$%^&*()-_]{5,}$/', 'message' => 'El shortname no permite Minúsculas.'],
             [['category'],'integer'],
             [['fullname'], 'string', 'max' => 34],
             [['shortname'], 'string', 'max' => 35],
