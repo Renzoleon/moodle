@@ -1,9 +1,12 @@
 <?php
+
+use app\models\Rol;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $decodedResponse app\controllers\MoodleController */
 /* @var $model app\models\Usuario */
+/* @var $modelr Rol */
 /* @var $formaulario yii\widgets\ActiveForm */
 
 $this->title = 'Crear un Nuevo Usuario';
@@ -29,6 +32,8 @@ if (isset($mensaje)) {
     <?= $formulario -> field($model,'firstname') ?>
     <?= $formulario -> field($model,'lastname') ?>
     <?= $formulario -> field($model,'email') ?>
+
+    <?= $model = $formulario -> field($model,'roleid');?>
 
         <div class="form-group">
             <?= Html::submitButton('ENVIAR',['class'=>'btn btn-primary']) ?>

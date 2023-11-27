@@ -63,6 +63,27 @@ class MoodleController extends Controller
         }
         // Cierra la conexión cURL
         curl_close($ch);
+
+        // Asignar rol
+        $data = [
+            'wstoken' => 'ec8703acaa85108f03b2717f35282556',
+            'wsfunction' => 'core_role_assign_roles',
+            'moodlewsrestformat' => 'json',
+            'assignments' => [
+                [
+                    'roleid' => 5, // ID del rol a asignar
+                    'userid' => 5, // ID del usuario
+                ]
+            ]
+        ];
+        $urlCompleta = $url. '?' .http_build_query($data);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $urlCompleta);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+        curl_exec($ch);
+        curl_close($ch);
         // Decodifica la respuesta JSON
         $decodedResponse = json_decode($response, true);
         return $decodedResponse;
