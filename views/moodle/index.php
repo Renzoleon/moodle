@@ -7,9 +7,8 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\Usuario */
 /* @var $formaulario yii\widgets\ActiveForm */
 
-$this->title = 'Crear un Usuario';
-$this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['index']];
-$this->params['breadcrumbs'][] = $this->title;
+$this->title = 'Crear un Nuevo Usuario';
+$this->params['breadcrumbs'][] = ['label' => 'Crear Nuevo Usuarios', 'url' => ['index']];
 
 // ... código de la vista ...
 if (isset($mensaje)) {
@@ -25,8 +24,7 @@ if (isset($mensaje)) {
 <div class="usuario-create">
     <?php  $formulario = ActiveForm::begin();  ?>
     <div class="usuario-row">
-        <?= $formulario -> field($model,'username')->textInput(['autofocus' => true, 'maxlength' => true, 'style' => '
-        text-transform: uppercase;    flex-shrink: 0;    flex: 0 0 auto;    width: 83.33333333%;']) ?>
+        <?= $formulario -> field($model,'username')->textInput(['autofocus' => true, 'maxlength' => true]) ?>
     </div>
     <?= $formulario -> field($model,'password') ?>
     <?= $formulario -> field($model,'firstname') ?>
@@ -38,4 +36,3 @@ if (isset($mensaje)) {
         </div>
     <?php   ActiveForm::end();   ?>
 </div>
-
