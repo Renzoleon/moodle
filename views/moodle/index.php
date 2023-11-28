@@ -1,16 +1,18 @@
 <?php
-
-use app\models\Rol;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $decodedResponse app\controllers\MoodleController */
 /* @var $model app\models\Usuario */
-/* @var $modelr Rol */
-/* @var $formaulario yii\widgets\ActiveForm */
+/* @var $usuario app\models\Usuario */
+/* @var $curso app\models\Curso */
+/* @var $rol app\models\Rol */
+/* @var $matricula app\models\Matricula */
+/* @var $form yii\widgets\ActiveForm */
 
-$this->title = 'Crear un Nuevo Usuario';
-$this->params['breadcrumbs'][] = ['label' => 'Crear Nuevo Usuarios', 'url' => ['index']];
+$this->title = 'Crear un Usuario, Curso, Rol y Matricula';
+$this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 
 // ... código de la vista ...
 if (isset($mensaje)) {
@@ -23,20 +25,26 @@ if (isset($mensaje)) {
 ?>
 
 <h1><?= Html::encode($this->title) ?></h1>
-<div class="usuario-create">
-    <?php  $formulario = ActiveForm::begin();  ?>
-    <div class="usuario-row">
-        <?= $formulario -> field($model,'username')->textInput(['autofocus' => true, 'maxlength' => true]) ?>
-    </div>
-    <?= $formulario -> field($model,'password') ?>
-    <?= $formulario -> field($model,'firstname') ?>
-    <?= $formulario -> field($model,'lastname') ?>
-    <?= $formulario -> field($model,'email') ?>
 
-    <?= $model = $formulario -> field($model,'roleid');?>
+<?php $form = ActiveForm::begin(); ?>
 
-        <div class="form-group">
-            <?= Html::submitButton('ENVIAR',['class'=>'btn btn-primary']) ?>
-        </div>
-    <?php   ActiveForm::end();   ?>
+<?= $form->field($usuario, 'username') ?>
+<?= $form->field($usuario, 'password') ?>
+<?= $form->field($usuario, 'firstname') ?>
+<?= $form->field($usuario, 'lastname') ?>
+<?= $form->field($usuario, 'email') ?>
+
+<?= $form->field($curso, 'fullname') ?>
+<?= $form->field($curso, 'shortname') ?>
+<?= $form->field($curso, 'categoryid') ?>
+
+<?= $form->field($rol, 'id') ?>
+
+<?= $form->field($matricula, 'roleid') ?>
+
+
+
+<div class="form-group">
+    <?= Html::submitButton('CREAR',['class'=>'btn btn-primary']) ?>
 </div>
+<?php   ActiveForm::end();   ?>
