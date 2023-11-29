@@ -4,7 +4,7 @@ namespace app\models;
 use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "alumno_programa".
+ * This is the model class for table "mdl_course_categories".
  *
  * @property MdlCourseCategories $MdlCourseCategories
  * */

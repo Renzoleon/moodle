@@ -4,21 +4,28 @@ namespace app\controllers;
 
 use Yii;
 use yii\web\Controller;
-use app\models\Rol;
+use app\models\MdlRoleAssignments;
 use yii\web\HttpException;
 class RolController extends Controller
 {
-    public function actionCrear($var1,$var2,$var3)
+    public function actionCrear(MdlRoleAssignments $assignRolModel)
     {
         $url = 'localhost/moodle/webservice/rest/server.php';
+
+        /* ********************************* *\
+        ****  ASIGNAR UN ROL A UN USUARIO  ****
+        \* ********************************* */
         $data = [
             'wstoken' => 'ec8703acaa85108f03b2717f35282556',
             'wsfunction' => 'core_role_assign_roles',
             'moodlewsrestformat' => 'json',
-
-            'assignments[0][roleid]' => $var1,
-            'assignments[0][userid]' => $var2,
-            'assignments[0][contextid]' => $var3,
+            'assignments' => [
+                [
+                    'roleid' => $assignRolModel->role, // ID del rol a asignar
+                    'userid' => $assignRolModel->user, // ID del usuario
+                    'contextid' => $assignRolModel->context, // ID del usuario
+                ]
+            ]
         ];
         $urlCompleta = $url. '?' .http_build_query($data);
         $ch = curl_init();
@@ -50,13 +57,13 @@ class RolController extends Controller
     }
     public function actionIndex()
     {
-        $model = new Rol();
-        if ($model->load(Yii::$app->request->post())&&$model->validate())
+        $assignRolModel = new MdlRoleAssignments();
+        if ($assignRolModel->load(Yii::$app->request->post())&&$assignRolModel->validate())
         {
-            $mensaje= $this ->actionCrear($model ->role,$model ->user, $model ->context);
+            $mensaje= $this ->actionCrear($assignRolModel);
 
-            return $this->render('index',['mensaje'=>$mensaje,'model'=>$model]);
+            return $this->render('index',['mensaje'=>$mensaje,'assignRolModel'=>$assignRolModel]);
         }
-        return $this -> render('index',['model'=>$model]);
+        return $this -> render('index',['assignRolModel'=>$assignRolModel]);
     }
 }

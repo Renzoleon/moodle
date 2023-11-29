@@ -24,7 +24,7 @@ if (isset($mensaje)) {
 ?>
 
 <?php
-$dataCurso = ArrayHelper::map(MdlCourseCategories::find()->asArray()->all(),
+$dataCategoria = ArrayHelper::map(MdlCourseCategories::find()->asArray()->all(),
     'id','name'
 );
 ?>
@@ -36,7 +36,7 @@ $dataCurso = ArrayHelper::map(MdlCourseCategories::find()->asArray()->all(),
 
     <?= $form -> field($cursoModel, 'fullname')->textInput(['autofocus' => true, 'maxlength' => true]) ?>
     <?= $form -> field($cursoModel, 'shortname')->textInput(['maxlength' => true])  ?>
-    <?= $form -> field($cursoModel, 'category')->dropDownList($dataCurso, ['prompt'=> 'Seleccione la Categoria'])  ?>
+    <?= $form -> field($cursoModel, 'category')->dropDownList($dataCategoria, ['prompt'=> 'Seleccione la Categoria'])  ?>
 
     <div class="form-group">
         <?= Html::submitButton('ENVIAR',['class'=>'btn btn-primary']) ?>

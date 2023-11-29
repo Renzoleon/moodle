@@ -12,8 +12,8 @@ use yii\widgets\ActiveForm;
 /* @var $matriculaModel app\models\Matricula */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = 'Crear Usuario | Rol';
-$this->params['breadcrumbs'][] = ['label' => 'Creación Usuario/Rol', 'url' => ['index']];
+$this->title = 'Crear Usuario & Asignar Rol';
+$this->params['breadcrumbs'][] = ['label' => 'Usuario & Rol', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 // ... código de la vista ...
