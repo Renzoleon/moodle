@@ -41,7 +41,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'items' => [
             ['label' => 'Inicio', 'url' => ['/site/index']],
             ['label' => 'Tablas','items'=>[
-                    ['label'=>'Moodle','url'=>'/moodle/index'],
+                    ['label'=>'Usuarios','url'=>'/moodle/index'],
                     ['label'=>'Cursos','url'=>'/curso/index'],
                     ['label'=>'Roles','url'=>'/rol/index'],
                     '<div class="dropdown-divider"></div>',

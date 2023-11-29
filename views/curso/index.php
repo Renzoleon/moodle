@@ -6,11 +6,12 @@ use yii\helpers\ArrayHelper;
 use yii\widgets\ActiveForm;
 
 /* @var $decodedResponse app\controllers\CursoController */
-/* @var $model app\models\MdlCourseCategories */
-/* @var $formulario yii\widgets\ActiveForm */
+/* @var $cursoModel app\models\MdlCourse */
+/* @var $form yii\widgets\ActiveForm */
 
-$this->title = 'Crear un Nuevo Curso';
-$this->params['breadcrumbs'][] = ['label' => 'Crear Nuevo Cursos', 'url' => ['index']];
+$this->title = 'Crear un Curso';
+$this->params['breadcrumbs'][] = ['label' => 'Cursos', 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 
 // ... código de la vista ...
 if (isset($mensaje)) {
@@ -21,18 +22,21 @@ if (isset($mensaje)) {
 }
 
 ?>
+
 <?php
 $dataCurso = ArrayHelper::map(MdlCourseCategories::find()->asArray()->all(),
     'id','name'
 );
 ?>
-<h1><?= Html::encode($this->title) ?></h1>
-<div class="course-create">
 
-    <?php $formulario = ActiveForm::begin();  ?>
-    <?= $formulario -> field($model,'fullname')->textInput(['autofocus' => true, 'maxlength' => true])//, 'style' => 'text-transform: uppercase']) ?>
-    <?= $formulario -> field($model,'shortname')->textInput(['maxlength' => true])//, 'style' => 'text-transform: uppercase']) ?>
-    <?= $formulario -> field($model,'category')->dropDownList($dataCurso, ['prompt'=> 'Seleccione la Categoria'] ) ?>
+<h1><?= Html::encode($this->title) ?></h1>
+
+<div class="usuario-create">
+    <?php $form = ActiveForm::begin(); ?>
+
+    <?= $form -> field($cursoModel, 'fullname')->textInput(['autofocus' => true, 'maxlength' => true]) ?>
+    <?= $form -> field($cursoModel, 'shortname')->textInput(['maxlength' => true])  ?>
+    <?= $form -> field($cursoModel, 'category')->dropDownList($dataCurso, ['prompt'=> 'Seleccione la Categoria'])  ?>
 
     <div class="form-group">
         <?= Html::submitButton('ENVIAR',['class'=>'btn btn-primary']) ?>

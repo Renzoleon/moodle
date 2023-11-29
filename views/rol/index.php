@@ -3,9 +3,9 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
-/* @var $decodedResponse app\controllers\RoleController */
+/* @var $decodedResponse app\controllers\RolController */
 /* @var $model app\models\Rol */
-/* @var $formulario yii\widgets\ActiveForm */
+/* @var $form yii\widgets\ActiveForm */
 
 $this->title = 'Crear un Rol';
 $this->params['breadcrumbs'][] = ['label' => 'Roles', 'url' => ['index']];
@@ -23,9 +23,10 @@ if (isset($mensaje)) {
 
 <h1><?= Html::encode($this->title) ?></h1>
 <div class="rol-create">
-    <?php $formulario = ActiveForm::begin();  ?>
-    <?= $formulario -> field($model,'roleid')->textInput(['autofocus' => true, 'maxlength' => true]) ?>
-    <?= $formulario -> field($model,'userid')->textInput(['maxlength' => true]) ?>
+    <?php $form = ActiveForm::begin();  ?>
+    <?= $form -> field($model,'role')->textInput(['autofocus' => true, 'maxlength' => true]) ?>
+    <?= $form -> field($model,'user')?>
+    <?= $form -> field($model,'context')->textInput(['maxlength' => true])?>
 
     <div class="form-group">
         <?= Html::submitButton('ENVIAR',['class'=>'btn btn-primary']) ?>

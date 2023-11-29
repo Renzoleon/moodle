@@ -1,17 +1,19 @@
 <?php
+
+// se importan algunas clases necesarias para la vista.
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
+// Luego, se definen algunas variables que se utilizarán en la vista. Estas variables son proporcionadas por el controlador.
+
 /* @var $decodedResponse app\controllers\MoodleController */
-/* @var $model app\models\Usuario */
-/* @var $usuario app\models\Usuario */
-/* @var $curso app\models\Curso */
-/* @var $rol app\models\Rol */
-/* @var $matricula app\models\Matricula */
+/* @var $usuarioModel app\models\Usuario */
+/* @var $rolModel app\models\Rol */
+/* @var $matriculaModel app\models\Matricula */
 /* @var $form yii\widgets\ActiveForm */
 
-$this->title = 'Crear un Usuario, Curso, Rol y Matricula';
-$this->params['breadcrumbs'][] = ['label' => 'Usuarios', 'url' => ['index']];
+$this->title = 'Crear Usuario | Rol';
+$this->params['breadcrumbs'][] = ['label' => 'Creación Usuario/Rol', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 // ... código de la vista ...
@@ -28,23 +30,19 @@ if (isset($mensaje)) {
 
 <?php $form = ActiveForm::begin(); ?>
 
-<?= $form->field($usuario, 'username') ?>
-<?= $form->field($usuario, 'password') ?>
-<?= $form->field($usuario, 'firstname') ?>
-<?= $form->field($usuario, 'lastname') ?>
-<?= $form->field($usuario, 'email') ?>
+<h3><?= Html::a('Crear nuevo Usuario') ?></h3>
+<?= $form -> field($usuarioModel, 'username')->textInput(['autofocus' => true, 'maxlength' => true]) ?>
+<?= $form -> field($usuarioModel, 'password') ?>
+<?= $form -> field($usuarioModel, 'firstname') ?>
+<?= $form -> field($usuarioModel, 'lastname') ?>
+<?= $form -> field($usuarioModel, 'email') ?>
 
-<?= $form->field($curso, 'fullname') ?>
-<?= $form->field($curso, 'shortname') ?>
-<?= $form->field($curso, 'categoryid') ?>
+<h3><?= Html::a('Asignar un Rol al Usuario') ?></h3>
+<?= $form -> field($rolModel, 'role') ?>
+<?= $form -> field($rolModel, 'context')?>
 
-<?= $form->field($rol, 'id') ?>
+    <div class="form-group">
+        <?= Html::submitButton('CREAR',['class'=>'btn btn-primary']) ?>
+    </div>
 
-<?= $form->field($matricula, 'roleid') ?>
-
-
-
-<div class="form-group">
-    <?= Html::submitButton('CREAR',['class'=>'btn btn-primary']) ?>
-</div>
 <?php   ActiveForm::end();   ?>

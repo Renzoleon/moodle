@@ -2,108 +2,123 @@
 
 namespace app\controllers;
 
+use Yii;
 use yii\web\Controller;
 use app\models\Usuario;
-use app\models\MdlCourse;
 use app\models\Rol;
-use app\models\Matricula;
+use yii\web\HttpException;
 
-// Esta clase controla las acciones relacionadas con Moodle
 class MoodleController extends Controller
 {
-    public function actionCrearUsuarioCursoYAsignarRolYMatricular(Usuario $usuario, MdlCourse $curso, Rol $rol, Matricula $matricula)
+    public function actionCrear(Usuario $usuarioModel, Rol $rolModel)
     {
-        $username = $usuario->username;
-        $courseShortName = $curso->shortname;
-        $url = 'localhost/moodle/webservice/rest/server.php';
-        // Verificar si el usuario existe
+        $url = 'http://172.16.243.43/moodle/webservice/rest/server.php';
+
+        /* **************************** *\
+        ****  CREAR UN USUARIO NUEVO  ****
+        \* **************************** */
         $data = [
-            'wstoken' => 'de43ac95878f53463292936d2ed0edfa',
-            'wsfunction' => 'core_user_get_users_by_field',
+            'wstoken' => 'ec8703acaa85108f03b2717f35282556',
+            'wsfunction' => 'core_user_create_users',
             'moodlewsrestformat' => 'json',
-            'field' => 'username',
-            'values' => [$username],
+            'users' => [
+                [
+                    'username' => $usuarioModel->username,
+                    'password' => $usuarioModel->password,
+                    'firstname' => $usuarioModel->firstname,
+                    'lastname' => $usuarioModel->lastname,
+                    'email' => $usuarioModel->email
+                ]
+            ]
         ];
-        // Configura las opciones de cURL
+
         $urlCompleta = $url. '?' .http_build_query($data);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $urlCompleta);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $result = curl_exec($ch);
-        curl_close($ch);
-        $usuarios = json_decode($result);
-        if (empty($usuarios)) {
-            // Crear usuario
-            $data = [
-                'wstoken' => 'de43ac95878f53463292936d2ed0edfa',
-                'wsfunction' => 'core_user_create_users',
-                'moodlewsrestformat' => 'json',
-                'users' => [
-                    [
-                        'username' => $usuario->username,
-                        'password' => $usuario->password,
-                        'firstname' => $usuario->firstname,
-                        'lastname' => $usuario->lastname,
-                        'email' => $usuario->email
-                    ]
-                ]
-            ];
-            $urlCompleta = $url. '?' .http_build_query($data);
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $urlCompleta);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_FAILONERROR, true);
-            curl_exec($ch);
-            curl_close($ch);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+
+        // Ejecuta la solicitud y obtén la respuesta
+        $response = curl_exec($ch);
+
+        // Verifica si hay errores cURL
+        if ($response === false) {
+            $error = curl_error($ch);
+            $errorNo = curl_errno($ch);
+
+            Yii::error('Error en la solicitud cURL (' . $errorNo . '): ' . $error);
+            throw new HttpException(500, 'Error en la conexión con Moodle: ' . $error);
         }
-        // Verificar si el curso existe
+
+        // Cierra la conexión cURL
+        curl_close($ch);
+
+        // Decodifica la respuesta JSON
+        $decodedResponse = json_decode($response, true);
+
+        // Guarda el ID del usuario creado
+        $userId = $decodedResponse[0]['id'];
+
+        /* ***************************** *\
+        ****  VALIDAR UN USUARIO  ****
+        \* ***************************** */
         $data = [
-            'wstoken' => 'de43ac95878f53463292936d2ed0edfa',
-            'wsfunction' => 'core_course_get_courses_by_field',
+            'wstoken' => 'ec8703acaa85108f03b2717f35282556',
+            'wsfunction' => 'core_user_get_users',
             'moodlewsrestformat' => 'json',
-            'field' => 'shortname',
-            'value' => $courseShortName,
+            'criteria' => [
+                [
+                    'key' => 'username',
+                    'value' => $usuarioModel->username,
+                ]
+            ]
         ];
+
         $urlCompleta = $url. '?' .http_build_query($data);
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $urlCompleta);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        $result = curl_exec($ch);
-        curl_close($ch);
-        $cursos = json_decode($result);
-        if (empty($cursos->courses)) {
-            // Crear curso
-            $data = [
-                'wstoken' => 'de43ac95878f53463292936d2ed0edfa',
-                'wsfunction' => 'core_course_create_courses',
-                'moodlewsrestformat' => 'json',
-                'courses' => [
-                    [
-                        'fullname' => $curso->fullname,
-                        'shortname' => $curso->shortname,
-                        'categoryid' => $curso->categoryid,
-                    ]
-                ]
-            ];
-            $urlCompleta = $url. '?' .http_build_query($data);
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $urlCompleta);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_FAILONERROR, true);
-            curl_exec($ch);
-            curl_close($ch);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+
+        // Ejecuta la solicitud y obtén la respuesta
+        $response = curl_exec($ch);
+
+        // Verifica si hay errores cURL
+        if ($response === false) {
+            $error = curl_error($ch);
+            $errorNo = curl_errno($ch);
+
+            Yii::error('Error en la solicitud cURL (' . $errorNo . '): ' . $error);
+            throw new HttpException(500, 'Error en la conexión con Moodle: ' . $error);
         }
-        // Asignar rol
+
+        // Cierra la conexión cURL
+        curl_close($ch);
+
+        // Decodifica la respuesta JSON
+        $decodedResponse = json_decode($response, true);
+
+        // Verifica si el usuario existe
+        if (empty($decodedResponse['users'])) {
+            throw new HttpException(404, 'Usuario no encontrado: ' . $usuarioModel->username);
+        }
+
+        // El usuario existe, puedes continuar con la asignación del rol
+
+        /* ********************************* *\
+        ****  ASIGNAR UN ROL A UN USUARIO  ****
+        \* ********************************* */
         $data = [
-            'wstoken' => 'de43ac95878f53463292936d2ed0edfa',
+            'wstoken' => 'ec8703acaa85108f03b2717f35282556',
             'wsfunction' => 'core_role_assign_roles',
             'moodlewsrestformat' => 'json',
             'assignments' => [
                 [
-                    'roleid' => $rol->id, // ID del rol a asignar
-                    'userid' => $username, // ID del usuario
+                    'roleid' => $rolModel->role, // ID del rol a asignar
+                    'userid' => $userId, // ID del usuario
+                    'contextid' => $rolModel->context, // ID del usuario
                 ]
             ]
         ];
@@ -115,28 +130,46 @@ class MoodleController extends Controller
         curl_setopt($ch, CURLOPT_FAILONERROR, true);
         curl_exec($ch);
         curl_close($ch);
-        // Matricular usuario en el curso
-        $data = [
-            'wstoken' => 'de43ac95878f53463292936d2ed0edfa',
-            'wsfunction' => 'enrol_manual_enrol_users',
-            'moodlewsrestformat' => 'json',
-            'enrolments' => [
-                [
-                    'roleid' => $matricula->roleid, // ID del rol a asignar
-                    'userid' => $username, // ID del usuario
-                    'courseid' => $courseShortName, // ID del curso
-                ]
-            ]
-        ];
-        $urlCompleta = $url. '?' .http_build_query($data);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $urlCompleta);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_FAILONERROR, true);
-        curl_exec($ch);
+        // Ejecuta la solicitud y obtén la respuesta
+        $response = curl_exec($ch);
+
+        // Verifica si hay errores cURL
+        if ($response === false) {
+            $error = curl_error($ch);
+            $errorNo = curl_errno($ch);
+
+            Yii::error('Error en la solicitud cURL (' . $errorNo . '): ' . $error);
+            throw new HttpException(500, 'Error en la conexión con Moodle: ' . $error);
+        }
+
+        // Cierra la conexión cURL
         curl_close($ch);
+
+        // Decodifica la respuesta JSON
+        $decodedResponse = json_decode($response, true);
+        return $decodedResponse;
     }
+    public function actionIndex()
+    {
+        $usuarioModel = new Usuario(); // Inicializa el modelo de Usuario
+        $usuarioModel->load(Yii::$app->request->post());
+        $usuarioModel->validate();
+
+        $rolModel = new Rol(); // Inicializa el modelo de Rol
+        $rolModel->load(Yii::$app->request->post());
+        $rolModel->validate();
+
+        if ($usuarioModel->validate() && $rolModel->validate()) {
+
+            $mensaje= $this ->actionCrear($usuarioModel, $rolModel);
+
+            return $this->render('index', ['mensaje'=>$mensaje,'usuarioModel' => $usuarioModel, 'rolModel' => $rolModel]);
+        }
+
+        return $this->render('index', ['usuarioModel' => $usuarioModel, 'rolModel' => $rolModel]);
+    }
+
+
 }
 
 ?>

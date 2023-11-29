@@ -6,18 +6,19 @@ use Yii;
 use yii\web\Controller;
 use app\models\Rol;
 use yii\web\HttpException;
-class RoleController extends Controller
+class RolController extends Controller
 {
-    public function actionCrear($var1,$var2)
+    public function actionCrear($var1,$var2,$var3)
     {
         $url = 'localhost/moodle/webservice/rest/server.php';
         $data = [
-            'wstoken' => 'de43ac95878f53463292936d2ed0edfa',
+            'wstoken' => 'ec8703acaa85108f03b2717f35282556',
             'wsfunction' => 'core_role_assign_roles',
             'moodlewsrestformat' => 'json',
 
             'assignments[0][roleid]' => $var1,
             'assignments[0][userid]' => $var2,
+            'assignments[0][contextid]' => $var3,
         ];
         $urlCompleta = $url. '?' .http_build_query($data);
         $ch = curl_init();
@@ -52,7 +53,7 @@ class RoleController extends Controller
         $model = new Rol();
         if ($model->load(Yii::$app->request->post())&&$model->validate())
         {
-            $mensaje= $this ->actionCrear($model ->roleid,$model ->userid);
+            $mensaje= $this ->actionCrear($model ->role,$model ->user, $model ->context);
 
             return $this->render('index',['mensaje'=>$mensaje,'model'=>$model]);
         }
