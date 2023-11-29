@@ -8,6 +8,7 @@ use yii\db\ActiveRecord;
  *
  * @property MdlRole $mdlRole
  * @property MdlUser $mdlUser
+ * @property MdlContext $mdlContext
  * */
 class MdlRoleAssignments extends ActiveRecord
 {
