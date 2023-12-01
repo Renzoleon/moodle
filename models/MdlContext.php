@@ -11,4 +11,9 @@ class MdlContext extends ActiveRecord
             [['id','contextlevel','instanceid'],'required'],
         ];
     }
+    
+    public function getCourse()
+    {
+        return $this->hasOne(MdlCourse::class, ['id' => 'instanceid']);
+    }
 }

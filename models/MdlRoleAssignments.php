@@ -5,6 +5,8 @@ use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "mdl_role".
+ * This is the model class for table "mdl_user".
+ * This is the model class for table "mdl_context".
  *
  * @property MdlRole $mdlRole
  * @property MdlUser $mdlUser

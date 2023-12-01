@@ -28,26 +28,28 @@ $dataRol = \yii\helpers\ArrayHelper::map(\app\models\MdlRole::find()->asArray()-
 $dataUser = \yii\helpers\ArrayHelper::map(\app\models\MdlUser::find()->asArray()->all(),
     'id','username'
 );
-//$dataCurso = \yii\helpers\ArrayHelper::map(\app\models\MdlCourse::find()->asArray()->all(),
-//    'id','fullname'
-//);
-$dataContext= \yii\helpers\ArrayHelper::map(\app\models\MdlContext::find()
-    ->where(['contextlevel' => '50'])
-    ->asArray()->all(),
-    'instanceid','id'
+$dataContext = \yii\helpers\ArrayHelper::map(
+    \app\models\MdlContext::find()
+        ->select(['mdl_context.id', 'mdl_context.instanceid', 'mdl_course.fullname']) // selecciona el id de mdl_context, instanceid y fullname
+        ->joinWith('course')
+        ->where(['contextlevel' => '50'])
+        ->asArray()
+        ->all(),
+    'id', function($element) {
+        return $element['instanceid'] . ' - ' . $element['fullname']; // mapea el id de mdl_context a una cadena que combina instanceid y fullname
+    }
 );
 
 ?>
 
 <h1><?= Html::encode($this->title) ?></h1>
-<div class="rol-create">
-    <?php $form = ActiveForm::begin();  ?>
-    <?= $form -> field($assignRolModel,'role')->dropDownList($dataRol, ['prompt'=> 'Seleccione un Rol', 'autofocus' => true])  ?>
-    <?= $form -> field($assignRolModel,'user')->dropDownList($dataUser, ['prompt'=> 'Seleccione un Usuario'])  ?>
-    <?= $form -> field($assignRolModel,'context')->dropDownList($dataContext, ['prompt'=> 'Seleccione un Curso'])  ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('ENVIAR',['class'=>'btn btn-primary']) ?>
-    </div>
-    <?php   ActiveForm::end();   ?>
+<?php $form = ActiveForm::begin();  ?>
+<?= $form -> field($assignRolModel,'role')->dropDownList($dataRol, ['prompt'=> 'Seleccione un Rol', 'autofocus' => true])  ?>
+<?= $form -> field($assignRolModel,'user')->dropDownList($dataUser, ['prompt'=> 'Seleccione un Usuario'])  ?>
+<?= $form -> field($assignRolModel,'context')->dropDownList($dataContext, ['prompt'=> 'Seleccione un Curso'])  ?>
+
+<div class="form-group">
+    <?= Html::submitButton('ENVIAR',['class'=>'btn btn-primary']) ?>
 </div>
+<?php   ActiveForm::end();   ?>

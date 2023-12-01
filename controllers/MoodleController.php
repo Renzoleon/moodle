@@ -14,6 +14,49 @@ class MoodleController extends Controller
     {
         $url = 'http://172.16.243.43/moodle/webservice/rest/server.php';
 
+        /* ***************************** *\
+        ****  VALIDAR UN USUARIO  ****
+        \* ***************************** */
+        $data = [
+            'wstoken' => 'ec8703acaa85108f03b2717f35282556',
+            'wsfunction' => 'core_user_get_users',
+            'moodlewsrestformat' => 'json',
+            'criteria' => [
+                [
+                    'key' => 'username',
+                    'value' => $usuarioModel->username,
+                ]
+            ]
+        ];
+
+        $urlCompleta = $url. '?' .http_build_query($data);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $urlCompleta);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_FAILONERROR, true);
+
+        // Ejecuta la solicitud y obtén la respuesta
+        $response = curl_exec($ch);
+
+        // Verifica si hay errores cURL
+        if ($response === false) {
+            $error = curl_error($ch);
+            $errorNo = curl_errno($ch);
+
+            Yii::error('Error en la solicitud cURL (' . $errorNo . '): ' . $error);
+            throw new HttpException(500, 'Error en la conexión con Moodle: ' . $error);
+        }
+
+        // Decodifica la respuesta JSON
+        $decodedResponse = json_decode($response, true);
+
+        // Verifica si el usuario existe
+        if (!empty($decodedResponse['users'])) {
+            throw new HttpException(409, 'Usuario ya existe: ' . $usuarioModel->username);
+        }
+
+
         /* **************************** *\
         ****  CREAR UN USUARIO NUEVO  ****
         \* **************************** */
@@ -60,52 +103,6 @@ class MoodleController extends Controller
         // Guarda el ID del usuario creado
         $userId = $decodedResponse[0]['id'];
 
-        /* ***************************** *\
-        ****  VALIDAR UN USUARIO  ****
-        \* ***************************** */
-        $data = [
-            'wstoken' => 'ec8703acaa85108f03b2717f35282556',
-            'wsfunction' => 'core_user_get_users',
-            'moodlewsrestformat' => 'json',
-            'criteria' => [
-                [
-                    'key' => 'username',
-                    'value' => $usuarioModel->username,
-                ]
-            ]
-        ];
-
-        $urlCompleta = $url. '?' .http_build_query($data);
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $urlCompleta);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_FAILONERROR, true);
-
-        // Ejecuta la solicitud y obtén la respuesta
-        $response = curl_exec($ch);
-
-        // Verifica si hay errores cURL
-        if ($response === false) {
-            $error = curl_error($ch);
-            $errorNo = curl_errno($ch);
-
-            Yii::error('Error en la solicitud cURL (' . $errorNo . '): ' . $error);
-            throw new HttpException(500, 'Error en la conexión con Moodle: ' . $error);
-        }
-
-        // Cierra la conexión cURL
-        curl_close($ch);
-
-        // Decodifica la respuesta JSON
-        $decodedResponse = json_decode($response, true);
-
-        // Verifica si el usuario existe
-        if (empty($decodedResponse['users'])) {
-            throw new HttpException(404, 'Usuario no encontrado: ' . $usuarioModel->username);
-        }
-
-        // El usuario existe, puedes continuar con la asignación del rol
 
         /* ********************************* *\
         ****  ASIGNAR UN ROL A UN USUARIO  ****

@@ -26,6 +26,25 @@ if (isset($mensaje)) {
 
 ?>
 
+<?php
+$dataRol = \yii\helpers\ArrayHelper::map(\app\models\MdlRole::find()->asArray()->all(),
+    'id','shortname'
+);
+
+$dataContext = \yii\helpers\ArrayHelper::map(
+    \app\models\MdlContext::find()
+        ->select(['mdl_context.id', 'mdl_context.instanceid', 'mdl_course.fullname']) // selecciona el id de mdl_context, instanceid y fullname
+        ->joinWith('course')
+        ->where(['contextlevel' => '50'])
+        ->asArray()
+        ->all(),
+    'id', function($element) {
+        return $element['instanceid'] . ' - ' . $element['fullname']; // mapea el id de mdl_context a una cadena que combina instanceid y fullname
+    }
+);
+
+?>
+
 <h1><?= Html::encode($this->title) ?></h1>
 
 <?php $form = ActiveForm::begin(); ?>
@@ -37,9 +56,9 @@ if (isset($mensaje)) {
 <?= $form -> field($usuarioModel, 'lastname') ?>
 <?= $form -> field($usuarioModel, 'email') ?>
 
-<h3><?= Html::a('Asignar un Rol al Usuario') ?></h3>
-<?= $form -> field($rolModel, 'role') ?>
-<?= $form -> field($rolModel, 'context')?>
+<h2><?= Html::a('Asignar un Rol al Usuario') ?></h2>
+<?= $form -> field($rolModel,'role')->dropDownList($dataRol, ['prompt'=> 'Seleccione un Rol', 'autofocus' => true])  ?>
+<?= $form -> field($rolModel,'context')->dropDownList($dataContext, ['prompt'=> 'Seleccione un Curso'])  ?>
 
     <div class="form-group">
         <?= Html::submitButton('CREAR',['class'=>'btn btn-primary']) ?>
