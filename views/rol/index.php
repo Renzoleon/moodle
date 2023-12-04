@@ -14,6 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 // ... código de la vista ...
 if (isset($mensaje)) {
     echo '<pre>';
+    print_r($assignRolModel);
     print_r($_POST);
     var_dump($mensaje);
     echo '</pre>';
@@ -28,17 +29,17 @@ $dataRol = \yii\helpers\ArrayHelper::map(\app\models\MdlRole::find()->asArray()-
 $dataUser = \yii\helpers\ArrayHelper::map(\app\models\MdlUser::find()->asArray()->all(),
     'id','username'
 );
-$dataContext = \yii\helpers\ArrayHelper::map(
-    \app\models\MdlContext::find()
-        ->select(['mdl_context.id', 'mdl_context.instanceid', 'mdl_course.fullname']) // selecciona el id de mdl_context, instanceid y fullname
-        ->joinWith('course')
-        ->where(['contextlevel' => '50'])
-        ->asArray()
-        ->all(),
-    'id', function($element) {
-        return $element['instanceid'] . ' - ' . $element['fullname']; // mapea el id de mdl_context a una cadena que combina instanceid y fullname
-    }
-);
+//$dataContext = \yii\helpers\ArrayHelper::map(
+//    \app\models\MdlContext::find()
+//        ->select(['mdl_context.id', 'mdl_context.instanceid', 'mdl_course.fullname']) // selecciona el id de mdl_context, instanceid y fullname
+//        ->joinWith('course')
+//        ->where(['contextlevel' => '50'])
+//        ->asArray()
+//        ->all(),
+//    'id', function($element) {
+//        return $element['instanceid'] . ' - ' . $element['fullname']; // mapea el id de mdl_context a una cadena que combina instanceid y fullname
+//    }
+//);
 
 ?>
 
@@ -47,7 +48,7 @@ $dataContext = \yii\helpers\ArrayHelper::map(
 <?php $form = ActiveForm::begin();  ?>
 <?= $form -> field($assignRolModel,'role')->dropDownList($dataRol, ['prompt'=> 'Seleccione un Rol', 'autofocus' => true])  ?>
 <?= $form -> field($assignRolModel,'user')->dropDownList($dataUser, ['prompt'=> 'Seleccione un Usuario'])  ?>
-<?= $form -> field($assignRolModel,'context')->dropDownList($dataContext, ['prompt'=> 'Seleccione un Curso'])  ?>
+<?php //= $form -> field($assignRolModel,'context')->dropDownList($dataContext, ['prompt'=> 'Seleccione un Curso'])  ?>
 
 <div class="form-group">
     <?= Html::submitButton('ENVIAR',['class'=>'btn btn-primary']) ?>

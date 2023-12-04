@@ -9,7 +9,7 @@ use yii\widgets\ActiveForm;
 /* @var $decodedResponse app\controllers\MoodleController */
 /* @var $usuarioModel app\models\Usuario */
 /* @var $rolModel app\models\Rol */
-/* @var $matriculaModel app\models\Matricula */
+///* @var $matriculaModel app\models\Matricula */
 /* @var $form yii\widgets\ActiveForm */
 
 $this->title = 'Crear Usuario & Asignar Rol';
@@ -59,6 +59,9 @@ $dataContext = \yii\helpers\ArrayHelper::map(
 <h2><?= Html::a('Asignar un Rol al Usuario') ?></h2>
 <?= $form -> field($rolModel,'role')->dropDownList($dataRol, ['prompt'=> 'Seleccione un Rol', 'autofocus' => true])  ?>
 <?= $form -> field($rolModel,'context')->dropDownList($dataContext, ['prompt'=> 'Seleccione un Curso'])  ?>
+
+<h2><?= Html::a('Asignar un Rol al Usuario') ?></h2>
+<?php //= $form -> field($matriculaModel, 'role')->dropDownList($dataRol, ['prompt'=> 'Seleccione un Rol','autofocus' => true])  ?>
 
     <div class="form-group">
         <?= Html::submitButton('CREAR',['class'=>'btn btn-primary']) ?>

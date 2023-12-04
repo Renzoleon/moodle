@@ -13,6 +13,7 @@ use yii\base\Model;
  * */
 class MdlUserEnrolments extends Model
 {
+    public $role;
     public $user;
     public $course;
 
@@ -20,8 +21,8 @@ class MdlUserEnrolments extends Model
     public function rules()
     {
         return [
-            [['user','course'],'required'],
-            [['user','course'],'integer'],
+            [['role','user','course'],'required'],
+            [['role','user','course'],'integer'],
         ];
     }
 }

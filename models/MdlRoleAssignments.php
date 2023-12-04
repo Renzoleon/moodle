@@ -16,13 +16,13 @@ class MdlRoleAssignments extends ActiveRecord
 {
     public $role;
     public $user;
-    public $context;
+//    public $context;
 
     public function rules()
     {
         return [
-            [['role','user','context'],'required'],
-            [['role','user','context'],'integer'],
+            [['role','user'],'required'],
+            [['role','user'],'integer'],
         ];
     }
 }

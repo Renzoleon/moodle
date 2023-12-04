@@ -39,6 +39,9 @@ if (isset($mensaje)) {
 ?>
 
 <?php
+$dataRol = \yii\helpers\ArrayHelper::map(\app\models\MdlRole::find()->asArray()->all(),
+    'id','shortname'
+);
 $dataUser = \yii\helpers\ArrayHelper::map(\app\models\MdlUser::find()->asArray()->all(),
     'id','username'
 );
@@ -61,7 +64,8 @@ $dataEnrol = \yii\helpers\ArrayHelper::map(
 
 <?php $form = ActiveForm::begin();  ?>
 
-<?= $form -> field($matriculaModel, 'user')->dropDownList($dataUser, ['prompt'=> 'Seleccione un Usuario','autofocus' => true])  ?>
+<?= $form -> field($matriculaModel, 'role')->dropDownList($dataRol, ['prompt'=> 'Seleccione un Rol','autofocus' => true])  ?>
+<?= $form -> field($matriculaModel, 'user')->dropDownList($dataUser, ['prompt'=> 'Seleccione un Usuario'])  ?>
 <?= $form -> field($matriculaModel, 'course')->dropDownList($dataEnrol, ['prompt'=> 'Seleccione un Curso'])  ?>
 
 <div class="form-group">

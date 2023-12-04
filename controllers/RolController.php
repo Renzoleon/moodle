@@ -23,10 +23,12 @@ class RolController extends Controller
                 [
                     'roleid' => $assignRolModel->role, // ID del rol a asignar
                     'userid' => $assignRolModel->user, // ID del usuario
-                    'contextid' => $assignRolModel->context, // ID del usuario
+//                    'contextid' => $assignRolModel->context, // ID del usuario
                 ]
             ]
         ];
+        print_r($data);
+        print_r($data);
         $urlCompleta = $url. '?' .http_build_query($data);
         $ch = curl_init();
 

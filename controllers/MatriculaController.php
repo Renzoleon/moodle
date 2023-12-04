@@ -23,7 +23,7 @@ class MatriculaController extends Controller
             'moodlewsrestformat' => 'json',
             'enrolments' => [
                 [
-                    'roleid' => 5, // ID del rol de estudiante
+                    'roleid' => $matriculaModel->role, // ID del rol de estudiante
                     'userid' => $matriculaModel->user,
                     'courseid' => $matriculaModel->course,
                 ]
