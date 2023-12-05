@@ -10,7 +10,7 @@ class RolController extends Controller
 {
     public function actionCrear(MdlRoleAssignments $assignRolModel)
     {
-        $url = 'localhost/moodle/webservice/rest/server.php';
+        $url = 'http://172.16.243.43/moodle/webservice/rest/server.php';
 
         /* ********************************* *\
         ****  ASIGNAR UN ROL A UN USUARIO  ****
@@ -22,8 +22,8 @@ class RolController extends Controller
             'assignments' => [
                 [
                     'roleid' => $assignRolModel->role, // ID del rol a asignar
+                    'contextid' => $assignRolModel->context, // ID del usuario
                     'userid' => $assignRolModel->user, // ID del usuario
-//                    'contextid' => $assignRolModel->context, // ID del usuario
                 ]
             ]
         ];

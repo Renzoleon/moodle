@@ -9,7 +9,7 @@ use yii\base\Model;
  * @property MdlRole $mdlRole
  * @property MdlContext $mdlContext
  * */
-class Rol extends Model
+class Matricula extends Model
 {
     public $role;
     public $context;

@@ -9,20 +9,20 @@ use yii\db\ActiveRecord;
  * This is the model class for table "mdl_context".
  *
  * @property MdlRole $mdlRole
- * @property MdlUser $mdlUser
  * @property MdlContext $mdlContext
+ * @property MdlUser $mdlUser
  * */
 class MdlRoleAssignments extends ActiveRecord
 {
     public $role;
     public $user;
-//    public $context;
+    public $context;
 
     public function rules()
     {
         return [
-            [['role','user'],'required'],
-            [['role','user'],'integer'],
+            [['role','context','user'],'required'],
+            [['role','context','user'],'integer'],
         ];
     }
 }

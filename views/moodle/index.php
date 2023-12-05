@@ -60,7 +60,7 @@ $dataContext = \yii\helpers\ArrayHelper::map(
 <?= $form -> field($rolModel,'role')->dropDownList($dataRol, ['prompt'=> 'Seleccione un Rol', 'autofocus' => true])  ?>
 <?= $form -> field($rolModel,'context')->dropDownList($dataContext, ['prompt'=> 'Seleccione un Curso'])  ?>
 
-<h2><?= Html::a('Asignar un Rol al Usuario') ?></h2>
+<!--<h2>--><?php //= Html::a('Asignar un Rol al Usuario') ?><!--</h2>-->
 <?php //= $form -> field($matriculaModel, 'role')->dropDownList($dataRol, ['prompt'=> 'Seleccione un Rol','autofocus' => true])  ?>
 
     <div class="form-group">

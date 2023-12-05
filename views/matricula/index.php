@@ -19,23 +19,6 @@ if (isset($mensaje)) {
     echo '</pre>';
 }
 
-// AHORA TOCA HACER LA MATRICULA
-
-
-// MDL_USER_ENROLMENTS
-// USERID -> ES EL ID DEL USUARIO
-
-// ENROLID -> ES EL CURSO DONDE ESTA MATRICULADO EL USER
-
-
-
-// DEBO TRABAJAR CON LAS TABLAS DE MDL_ENROL Y MDL_USER_ENROLMENTS
-
-// EXTRAER EL ID DEL CURSO
-// LLEVAR EL ID DEL CURSO A MDL_ENROL->courseid
-// FILTRAR EL COURSEID CON MDLENROL->ENROL->manual
-// EXTRAER EL ID DE ENROL
-
 ?>
 
 <?php
@@ -45,16 +28,19 @@ $dataRol = \yii\helpers\ArrayHelper::map(\app\models\MdlRole::find()->asArray()-
 $dataUser = \yii\helpers\ArrayHelper::map(\app\models\MdlUser::find()->asArray()->all(),
     'id','username'
 );
-$dataEnrol = \yii\helpers\ArrayHelper::map(
-    \app\models\MdlEnrol::find()
-        ->select(['mdl_enrol.id', 'mdl_enrol.courseid', 'mdl_course.fullname']) // selecciona el id de mdl_enrol, courseid y fullname
-        ->joinWith('course')
-        ->where(['enrol' => 'manual'])
-        ->asArray()
-        ->all(),
-    'id', function($element) {
-        return $element['courseid'] . ' - ' . $element['fullname']; // mapea el id de mdl_context a una cadena que combina courseid y fullname
-    }
+//$dataEnrol = \yii\helpers\ArrayHelper::map(
+//    \app\models\MdlEnrol::find()
+//        ->select(['mdl_enrol.id', 'mdl_enrol.courseid', 'mdl_course.fullname']) // selecciona el id de mdl_enrol, courseid y fullname
+//        ->joinWith('course')
+//        ->where(['enrol' => 'manual'])
+//        ->asArray()
+//        ->all(),
+//    'id', function($element) {
+//        return $element['courseid'] . ' - ' . $element['fullname']; // mapea el id de mdl_context a una cadena que combina courseid y fullname
+//    }
+//);
+$dataCourse= \yii\helpers\ArrayHelper::map(\app\models\MdlCourse::find()->asArray()->all(),
+    'id','fullname'
 );
 
 ?>
@@ -66,7 +52,7 @@ $dataEnrol = \yii\helpers\ArrayHelper::map(
 
 <?= $form -> field($matriculaModel, 'role')->dropDownList($dataRol, ['prompt'=> 'Seleccione un Rol','autofocus' => true])  ?>
 <?= $form -> field($matriculaModel, 'user')->dropDownList($dataUser, ['prompt'=> 'Seleccione un Usuario'])  ?>
-<?= $form -> field($matriculaModel, 'course')->dropDownList($dataEnrol, ['prompt'=> 'Seleccione un Curso'])  ?>
+<?= $form -> field($matriculaModel, 'course')->dropDownList($dataCourse, ['prompt'=> 'Seleccione un Curso'])  ?>
 
 <div class="form-group">
     <?= Html::submitButton('ENVIAR',['class'=>'btn btn-primary']) ?>
