@@ -34,7 +34,7 @@ $dataContext = \yii\helpers\ArrayHelper::map(
         ->asArray()
         ->all(),
     'id', function($element) {
-    return $element['fullname']; // mapea el id de mdl_context a una cadena que combina instanceid y fullname
+    return $element['fullname']; // mapea el id de mdl_context a una cadena fullname
 }
 );
 $dataUser = \yii\helpers\ArrayHelper::map(\app\models\MdlUser::find()->asArray()->all(),

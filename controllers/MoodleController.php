@@ -150,11 +150,11 @@ class MoodleController extends Controller
     {
         $usuarioModel = new Usuario(); // Inicializa el modelo de Usuario
         $usuarioModel->load(Yii::$app->request->post());
-        $usuarioModel->validate();
+//        $usuarioModel->validate();
 
         $rolModel = new Rol(); // Inicializa el modelo de Rol
         $rolModel->load(Yii::$app->request->post());
-        $rolModel->validate();
+//        $rolModel->validate();
 
         if ($usuarioModel->validate() && $rolModel->validate()) {
 
