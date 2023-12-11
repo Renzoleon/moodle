@@ -41,11 +41,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/x-icon', 'href' => Yii
         'items' => [
             ['label' => 'Inicio', 'url' => ['/site/index']],
             ['label' => 'Tablas','items'=>[
-                    ['label'=>'Usuarios','url'=>'/moodle/index'],
-                    ['label'=>'Roles','url'=>'/rol/index'],
+                ['label'=>'Usuarios','url'=>'/moodle/index'],
+                ['label'=>'Roles','url'=>'/rol/index'],
                 '<div class="dropdown-divider"></div>',
                 ['label'=>'Cursos','url'=>'/curso/index'],
                 ['label'=>'Matriculas','url'=>'/matricula/index'],
+                '<div class="dropdown-divider"></div>',
+                ['label'=>'Grupos','url'=>'/grupo/index'],
             ]],
             ['label' => 'Gii', 'url' => ['/gii']],
             ['label' => 'Contact', 'url' => ['/site/contact']],
